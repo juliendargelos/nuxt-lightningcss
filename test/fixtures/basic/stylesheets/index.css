@@ -1,0 +1,7 @@
+@import 'colors.css';
+
+@media (--desktop) {
+  body {
+    background: red;
+  }
+}

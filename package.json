@@ -1,0 +1,61 @@
+{
+  "name": "nuxt-lightningcss",
+  "version": "1.5.2",
+  "description": "Lightningcss for Nuxt",
+  "repository": "https://github.com/juliendargelos/nuxt-lightningcss",
+  "keywords": [
+    "lightningcss",
+    "nuxt",
+    "css",
+    "postcss",
+    "vue"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    }
+  },
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "scripts": {
+    "prepack": "nuxt-module-build",
+    "dev": "nuxi dev playground",
+    "dev:build": "nuxi build playground",
+    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "release": "yarn lint && yarn test && yarn prepack && changelogen --release && npm publish && git push --follow-tags",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest watch"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^3.7.3",
+    "browserslist": "^4.21.11",
+    "lightningcss": "^1.22.0"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^0.8.5",
+    "@nuxt/eslint-config": "^0.1.1",
+    "@nuxt/module-builder": "^0.4.0",
+    "@nuxt/schema": "^3.6.5",
+    "@nuxt/test-utils": "^3.6.5",
+    "@types/node": "^18.17.1",
+    "changelogen": "^0.5.4",
+    "eslint": "^8.46.0",
+    "nuxt": "^3.7.3",
+    "vitest": "^0.34.5"
+  },
+  "peerDependencies": {
+    "nuxt": "^3.7.3"
+  }
+}
