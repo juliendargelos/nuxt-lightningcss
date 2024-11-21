@@ -15,14 +15,7 @@ Use the built-in lightningcss preprocessor of Vite with Nuxt.
 1. Add `nuxt-lightningcss` dependency to your project
 
 ```bash
-# Using pnpm
 pnpm add -D nuxt-lightningcss
-
-# Using yarn
-yarn add --dev nuxt-lightningcss
-
-# Using npm
-npm install --save-dev nuxt-lightningcss
 ```
 
 2. Add `nuxt-lightningcss` to the `modules` section of `nuxt.config.ts`
@@ -53,7 +46,7 @@ That's it! You can now use lightningcss in your Nuxt app ✨
 
 ## Configuration
 
-To configure lightningcss, add an options object either with the `lightningcss` key or in the `modules` array:
+To configure the module, add an options object either with the `lightningcss` key or in the `modules` array:
 
 ```typescript
 export default defineNuxtConfig({
@@ -77,36 +70,59 @@ export default defineNuxtConfig({
 })
 ```
 
-This module takes the same options as those from the [lightningcss transform function][lightningcss-options], except for the following:
 
-- `code`
-- `filename`
-- `projectRoot`
-- `analyzeDependencies`
-- `sourceMap`
-- `inputSourceMap`
-- `cssModules`
+```typescript
+export interface ModuleOptions {
+  /**
+   * Paths to global stylesheets
+   * @default undefined
+   */
+  globals?: string[] | undefined
 
-It also provides these extra options:
+  /**
+   * Wether to minify stylesheets
+   * @default true
+   */
+  minify: boolean
+
+  /**
+   * Lightningcss configuration file or object
+   * @default '~~/lightningcss.config.ts'
+   */
+  config: string | Config
+}
+```
 
 - `globals`: an array of stylesheet paths to import in all other stylesheets. This is especially useful when you want to transpile [custom media queries](#custom-media-queries).
+- `minify`: set to false to disable lightningcss minification (always disabled in development mode)
+- `config`: lightningcss [configuration](src/config.ts) file or object. By default, the module will look for a `lightningcss.config.ts` file in the root of your project.
+
+### Configuration file
+
+You can create a file to set lightningcss [configuration][lightningcss-options]:
+
+```typescript
+// ~~/lightningcss.config.ts
+
+import { defineLightningCSSConfig } from 'nuxt-lightningcss'
+
+export default defineLightningCSSConfig({
+  // Lightningcss configuration
+})
+```
+
 
 ### Targets
 
-The [lightningcss `targets` option][lightningcss-targets] is automatically set from you project [browserslist configuration][browserslist-readme] (either in `.browserslistrc`, `browserslist`, `package.json` or in the `BROWSERSLIST` environment variable). If there isn't an explicit browserslist configuration in your project, the `defaults` preset will be used. This can also be overridden from the module options:
+The [lightningcss `targets` option][lightningcss-targets] is automatically set from you project [browserslist configuration][browserslist-readme] (either in `.browserslistrc`, `browserslist`, `package.json` or in the `BROWSERSLIST` environment variable). If there isn't an explicit browserslist configuration in your project, the `defaults` preset will be used. This can also be overridden from the lightningcss configuration:
 
 ```typescript
+import { defineLightningCSSConfig } from 'nuxt-lightningcss'
 import { browserslistToTargets } from 'lightningcss'
 import browserslist from 'browserslist'
 
-export default defineNuxtConfig({
-  modules: [
-    'nuxt-lightningcss'
-  ],
-
-  lightningcss: {
-    targets: browserslistToTargets(browserslist('> 0.5%, last 2 versions, Firefox ESR, not dead'))
-  }
+export default defineLightningCSSConfig({
+  targets: browserslistToTargets(browserslist('> 0.5%, last 2 versions, Firefox ESR, not dead'))
 })
 ```
 
@@ -127,9 +143,11 @@ export default defineNuxtConfig({
       // Import your custom media queries in all stylesheets
       '~/assets/stylesheets/media-queries.css'
     ],
-    include: Features.CustomMediaQueries,
-    drafts: {
-      customMedia: true
+    config: {
+      include: Features.CustomMediaQueries,
+      drafts: {
+        customMedia: true
+      }
     }
   }
 })
@@ -157,26 +175,26 @@ export default defineNuxtConfig({
 
 ```bash
 # Install dependencies
-yarn install
+pnpm install
 
 # Generate type stubs
-yarn dev:prepare
+pnpm dev:prepare
 
 # Develop with the playground
-yarn dev
+pnpm dev
 
 # Build the playground
-yarn dev:build
+pnpm dev:build
 
 # Run ESLint
-yarn lint
+pnpm lint
 
 # Run Vitest
-yarn test
-yarn test:watch
+pnpm test
+pnpm test:watch
 
 # Release new version
-yarn release
+pnpm release
 ```
 
 <!-- Badges -->

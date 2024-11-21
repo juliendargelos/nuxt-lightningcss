@@ -1,9 +1,8 @@
-import { Features } from 'lightningcss'
-import MyModule from '../src/module'
+import lightningcss from '../src/module'
 
 export default defineNuxtConfig({
   modules: [
-    MyModule
+    lightningcss
   ],
 
   css: [
@@ -13,10 +12,6 @@ export default defineNuxtConfig({
   lightningcss: {
     globals: [
       '~/stylesheets/media-queries.css'
-    ],
-    include: Features.CustomMediaQueries | Features.Nesting,
-    drafts: {
-      customMedia: true
-    }
+    ]
   }
 })
