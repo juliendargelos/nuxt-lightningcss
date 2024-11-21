@@ -1,18 +1,18 @@
 import { Plugin } from 'vite'
 
-export interface GlobalCSSImportsParameters {
+export interface GlobalStylesheetParameters {
   paths: string[]
 }
 
-export default function globalCSSImports({
+export default function globalStylesheet({
   paths
-}: GlobalCSSImportsParameters): Plugin {
+}: GlobalStylesheetParameters): Plugin {
   const imports = paths
     .map(path => `@import ${JSON.stringify(path)};`)
     .join('\n')
 
   return {
-    name: 'global-css-imports',
+    name: 'nuxt-lightningcss-global-stylesheet',
     enforce: 'pre',
 
     transform(code, id) {

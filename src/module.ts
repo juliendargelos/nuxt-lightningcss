@@ -2,48 +2,64 @@ import { defineNuxtModule, resolvePath } from '@nuxt/kit'
 import { type TransformOptions, browserslistToTargets, CustomAtRules } from 'lightningcss'
 import { type CSSOptions } from 'vite'
 import browserslist from 'browserslist'
+import { defineConfig, type Config } from './config'
 
-import globalCSSImports from './plugins/global-css-imports'
+import globalStylesheet from './plugins/global-stylesheet'
 
-export interface LightningCSSOptions extends Partial<Omit<
-  TransformOptions<CustomAtRules>,
-  'filename' |
-  'code' |
-  'sourceMap' |
-  'inputSourceMap' |
-  'projectRoot' |
-  'analyzeDependencies' |
-  'cssModules'
->> {
-  globals?: string[]
+export interface ModuleOptions {
+  /**
+   * Paths to global stylesheets
+   * @default undefined
+   */
+  globals?: string[] | undefined
+
+  /**
+   * Wether to minify stylesheets
+   * @default true
+   */
+  minify: boolean
+
+  /**
+   * Lightningcss configuration file or object
+   * @default '~~/lightningcss.config.ts'
+   */
+  config: string | Config
 }
 
-export default defineNuxtModule<LightningCSSOptions>({
+export default defineNuxtModule<ModuleOptions>({
    meta: {
     name: 'lightningcss',
     configKey: 'lightningcss'
   },
 
   defaults: {
-    minify: true
+    minify: true,
+    config: '~~/lightningcss.config.ts'
   },
 
   async setup({
     globals,
-    minify = true,
-    ...options
+    minify,
+    config
   }, nuxt): Promise<void> {
+    if (typeof config === 'string') {
+      console.log(await resolvePath(config))
+      config = await import(await resolvePath(config))
+        .then(({ default: config }) => <Config>config)
+        .catch(() => ({}))
+    }
+
     const cssOptions: CSSOptions = {
       transformer: 'lightningcss',
       lightningcss: {
         targets: browserslistToTargets(browserslist(browserslist.loadConfig({
           path: await resolvePath('~/')
         }))),
-        ...options
-      } as any
+        ...config
+      }
     }
 
-    const plugins = !globals || !globals.length ? [] : [globalCSSImports({
+    const plugins = !globals?.length ? [] : [globalStylesheet({
       paths: globals
     })]
 
@@ -56,3 +72,8 @@ export default defineNuxtModule<LightningCSSOptions>({
     })
   }
 })
+
+export {
+  defineConfig as defineLightningCSSConfig,
+  type Config as LightningCSSConfig
+}
