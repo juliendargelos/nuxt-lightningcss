@@ -11,7 +11,7 @@ export interface ModuleOptions {
    * Paths to global stylesheets
    * @default undefined
    */
-  globals?: string[] | undefined
+  globals?: string[]
 
   /**
    * Wether to minify stylesheets

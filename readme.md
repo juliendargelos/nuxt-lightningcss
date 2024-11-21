@@ -72,24 +72,24 @@ export default defineNuxtConfig({
 
 
 ```typescript
-export interface ModuleOptions {
+interface ModuleOptions {
   /**
    * Paths to global stylesheets
    * @default undefined
    */
-  globals?: string[] | undefined
+  globals?: string[]
 
   /**
    * Wether to minify stylesheets
    * @default true
    */
-  minify: boolean
+  minify?: boolean
 
   /**
    * Lightningcss configuration file or object
    * @default '~~/lightningcss.config.ts'
    */
-  config: string | Config
+  config?: string | Config
 }
 ```
 
