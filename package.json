@@ -39,21 +39,21 @@
     "test:watch": "vitest watch"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.7.3",
-    "browserslist": "^4.21.11",
-    "lightningcss": "^1.22.0"
+    "@nuxt/kit": "^3.14.1592",
+    "browserslist": "^4.24.2",
+    "lightningcss": "^1.28.1"
   },
   "devDependencies": {
     "@nuxt/devtools": "^0.8.5",
     "@nuxt/eslint-config": "^0.1.1",
     "@nuxt/module-builder": "^0.4.0",
-    "@nuxt/schema": "^3.6.5",
-    "@nuxt/test-utils": "^3.6.5",
-    "@types/node": "^18.17.1",
-    "changelogen": "^0.5.4",
-    "eslint": "^8.46.0",
-    "nuxt": "^3.7.3",
-    "vitest": "^0.34.5"
+    "@nuxt/schema": "^3.14.1592",
+    "@nuxt/test-utils": "^3.14.4",
+    "@types/node": "^18.19.64",
+    "changelogen": "^0.5.7",
+    "eslint": "^8.57.1",
+    "nuxt": "^3.14.1592",
+    "vitest": "^0.34.6"
   },
   "peerDependencies": {
     "nuxt": "^3.7.3"
