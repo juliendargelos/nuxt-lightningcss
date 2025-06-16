@@ -7,7 +7,7 @@
 
 </script>
 
-<style lang="postcss">
+<style>
   .a {
     color: blue;
 

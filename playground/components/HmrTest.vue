@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<style scoped lang="postcss">
+<style scoped>
   .hey {
     background: green;
     width: 100px;

@@ -28,20 +28,6 @@ export default defineNuxtConfig({
 })
 ```
 
-3. To get the proper syntax highlighting in your components, use `lang="postcss"` in your style tags:
-
-```html
-<style lang="postcss">
-  .a {
-    color: black;
-
-    .b {
-      color: blue;
-    }
-  }
-</style>
-```
-
 That's it! You can now use lightningcss in your Nuxt app ✨
 
 ## Configuration
@@ -99,7 +85,8 @@ interface ModuleOptions {
 
 ### Configuration file
 
-You can create a file to set lightningcss [configuration][lightningcss-options]:
+You can create a separate file to define lightningcss
+[configuration][lightningcss-options]:
 
 ```typescript
 // ~~/lightningcss.config.ts
