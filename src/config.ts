@@ -1,14 +1,8 @@
 import type { TransformOptions, CustomAtRules } from 'lightningcss'
 
-export type Config = Partial<Omit<
-  TransformOptions<CustomAtRules>,
+export type Config = Partial<Omit<TransformOptions<CustomAtRules>,
   'filename' |
-  'code' |
-  'sourceMap' |
-  'inputSourceMap' |
-  'projectRoot' |
-  'analyzeDependencies' |
-  'cssModules'
+  'code'
 >>
 
 export function defineConfig(config: Config): Config {
