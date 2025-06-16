@@ -1,6 +1,6 @@
 import { defineNuxtModule, resolvePath } from '@nuxt/kit'
-import { type TransformOptions, browserslistToTargets, CustomAtRules } from 'lightningcss'
 import { type CSSOptions } from 'vite'
+import { browserslistToTargets } from 'lightningcss'
 import browserslist from 'browserslist'
 import { defineConfig, type Config } from './config'
 
