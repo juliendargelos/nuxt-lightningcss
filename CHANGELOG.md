@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v2.2.0
+
+[compare changes](https://github.com/juliendargelos/nuxt-lightningcss/compare/v2.1.0...v2.2.0)
+
+### 🚀 Enhancements
+
+- Improve config loading error messages ([09e9027](https://github.com/juliendargelos/nuxt-lightningcss/commit/09e9027))
+
+### 🩹 Fixes
+
+- Loading of lightningcss configuration ([964e69b](https://github.com/juliendargelos/nuxt-lightningcss/commit/964e69b))
+
+### ❤️ Contributors
+
+- Julien Dargelos <hello@julien.gl>
+
 ## v2.1.0
 
 [compare changes](https://github.com/juliendargelos/nuxt-lightningcss/compare/v2.0.0...v2.1.0)
