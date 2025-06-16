@@ -72,8 +72,8 @@ interface ModuleOptions {
   minify?: boolean
 
   /**
-   * Lightningcss configuration file or object
-   * @default '~~/lightningcss.config.ts'
+   * Lightningcss configuration object or path relative to nuxt rootDir
+   * @default 'lightningcss.config.ts'
    */
   config?: string | Config
 }

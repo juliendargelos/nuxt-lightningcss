@@ -1,10 +1,12 @@
-import { defineNuxtModule, resolvePath } from '@nuxt/kit'
+import { defineNuxtModule, resolvePath, useLogger } from '@nuxt/kit'
 import { type CSSOptions } from 'vite'
 import { browserslistToTargets } from 'lightningcss'
 import browserslist from 'browserslist'
 import { defineConfig, type Config } from './config'
 
 import globalStylesheet from './plugins/global-stylesheet'
+
+const MODULE_NAME = 'lightningcss'
 
 export interface ModuleOptions {
   /**
@@ -20,21 +22,20 @@ export interface ModuleOptions {
   minify: boolean
 
   /**
-   * Lightningcss configuration file or object
-   * @default '~~/lightningcss.config.ts'
+   * Lightningcss configuration object or path relative to nuxt rootDir
+   * @default 'lightningcss.config.ts'
    */
-  config: string | Config
+  config?: string | Config
 }
 
 export default defineNuxtModule<ModuleOptions>({
    meta: {
-    name: 'lightningcss',
+    name: MODULE_NAME,
     configKey: 'lightningcss'
   },
 
   defaults: {
-    minify: true,
-    config: '~~/lightningcss.config.ts'
+    minify: true
   },
 
   async setup({
@@ -42,18 +43,26 @@ export default defineNuxtModule<ModuleOptions>({
     minify,
     config
   }, nuxt): Promise<void> {
-    if (typeof config === 'string') {
-      console.log(await resolvePath(config))
-      config = await import(await resolvePath(config))
+    const logger = useLogger(MODULE_NAME)
+
+    if (!config || typeof config === 'string') {
+      const configPath = await resolvePath(config || 'lightningcss.config.ts')
+      config = await import(configPath)
         .then(({ default: config }) => <Config>config)
-        .catch(() => ({}))
+        .catch(() => {
+          config && logger.error(
+            `Could not load lightningcss config from ${configPath}`
+          )
+
+          return {}
+        })
     }
 
     const cssOptions: CSSOptions = {
       transformer: 'lightningcss',
       lightningcss: {
         targets: browserslistToTargets(browserslist(browserslist.loadConfig({
-          path: await resolvePath('~/')
+          path: await resolvePath('.')
         }))),
         ...config
       }
