@@ -48,13 +48,14 @@ export default defineNuxtModule<ModuleOptions>({
     if (!config || typeof config === 'string') {
       const configPath = await resolvePath(config || 'lightningcss.config.ts')
       config = await import(configPath)
-        .then(({ default: config }) => <Config>config)
-        .catch(() => {
+        .then<Config>(({ default: config }) => config)
+        .catch((error) => {
           config && logger.error(
-            `Could not load lightningcss config from ${configPath}`
+            `Could not load lightningcss config from ${config}:`,
+            error
           )
 
-          return {}
+          return undefined
         })
     }
 
