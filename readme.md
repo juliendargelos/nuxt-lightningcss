@@ -32,7 +32,7 @@ That's it! You can now use lightningcss in your Nuxt app ✨
 
 ## Configuration
 
-To configure the module, add an options object either with the `lightningcss` key or in the `modules` array:
+To configure the module, add an options object with the `lightningcss` key:
 
 ```typescript
 export default defineNuxtConfig({
@@ -43,16 +43,6 @@ export default defineNuxtConfig({
   lightningcss: {
     // Options
   }
-})
-```
-
-```typescript
-export default defineNuxtConfig({
-  modules: [
-    ['nuxt-lightningcss', {
-      // Options
-    }]
-  ]
 })
 ```
 
@@ -75,18 +65,17 @@ interface ModuleOptions {
    * Lightningcss configuration object or path relative to nuxt rootDir
    * @default 'lightningcss.config.ts'
    */
-  config?: string | Config
+  config?: Config | string
 }
 ```
 
 - `globals`: an array of stylesheet paths to import in all other stylesheets. This is especially useful when you want to transpile [custom media queries](#custom-media-queries).
 - `minify`: set to false to disable lightningcss minification (always disabled in development mode)
-- `config`: lightningcss [configuration](src/config.ts) file or object. By default, the module will look for a `lightningcss.config.ts` file in the root of your project.
+- `config`: [lightningcss configuration][lightningcss-configuration] file or object. By default, the module will look for a `lightningcss.config.ts` file in the root of your project.
 
 ### Configuration file
 
-You can create a separate file to define lightningcss
-[configuration][lightningcss-options]:
+You can use a separate configuration file to define [lightningcss configuration][lightningcss-configuration]:
 
 ```typescript
 // ~~/lightningcss.config.ts
@@ -113,6 +102,24 @@ export default defineLightningCSSConfig({
 })
 ```
 
+### Minification
+
+By default, stylesheets are minified in production using lightningcss. You can disable minification using the following configuration (always disabled in development mode):
+
+```typescript
+import { Features } from 'lightningcss'
+
+export default defineNuxtConfig({
+  modules: [
+    'nuxt-lightningcss'
+  ],
+
+  lightningcss: {
+    minify: false
+  }
+})
+```
+
 ### Custom media queries
 
 Custom media queries can be transpiled using lightningcss, but since their actual definition is removed from the bundled stylesheets, they need to be imported in all stylesheets that use them. You can do that using the following configuration:
@@ -136,24 +143,6 @@ export default defineNuxtConfig({
         customMedia: true
       }
     }
-  }
-})
-```
-
-### Minify
-
-By default, stylesheets are minified in production using lightningcss. You can disable minification using the following configuration (always disabled in development mode):
-
-```typescript
-import { Features } from 'lightningcss'
-
-export default defineNuxtConfig({
-  modules: [
-    'nuxt-lightningcss'
-  ],
-
-  lightningcss: {
-    minify: false
   }
 })
 ```
@@ -200,5 +189,5 @@ pnpm release
 <!-- Lightningcss documentation -->
 [lightningcss-documentation]: https://lightningcss.dev/docs.html
 [lightningcss-targets]: https://lightningcss.dev/transpilation.html#browser-targets
-[lightningcss-options]: https://github.com/parcel-bundler/lightningcss/blob/7ff93ca5c69ba9df415e1e2319d275e2cec249d7/node/index.d.ts#L8-L74
+[lightningcss-configuration]: https://github.com/parcel-bundler/lightningcss/blob/52cc952a6bc206db5676c6af267ca3e03348874c/node/index.d.ts#L8-L74
 [browserslist-readme]: https://github.com/browserslist/browserslist#readme

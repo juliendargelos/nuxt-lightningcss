@@ -1,5 +1,6 @@
 import { defineNuxtModule, resolvePath, useLogger } from '@nuxt/kit'
 import { type CSSOptions } from 'vite'
+import { createJiti } from 'jiti'
 import { browserslistToTargets } from 'lightningcss'
 import browserslist from 'browserslist'
 import { defineConfig, type Config } from './config'
@@ -7,6 +8,7 @@ import { defineConfig, type Config } from './config'
 import globalStylesheet from './plugins/global-stylesheet'
 
 const MODULE_NAME = 'lightningcss'
+const CONFIGURATION_FILE = 'lightningcss.config.ts'
 
 export interface ModuleOptions {
   /**
@@ -25,7 +27,7 @@ export interface ModuleOptions {
    * Lightningcss configuration object or path relative to nuxt rootDir
    * @default 'lightningcss.config.ts'
    */
-  config?: string | Config
+  config?: Config | string
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -46,17 +48,25 @@ export default defineNuxtModule<ModuleOptions>({
     const logger = useLogger(MODULE_NAME)
 
     if (!config || typeof config === 'string') {
-      const configPath = await resolvePath(config || 'lightningcss.config.ts')
-      config = await import(configPath)
-        .then<Config>(({ default: config }) => config)
-        .catch((error) => {
-          config && logger.error(
-            `Could not load lightningcss config from ${config}:`,
-            error
-          )
+      try {
+        const jiti = createJiti(import.meta.url)
+        const {
+          default: importedConfig
+        } = await jiti.import<{
+          default?: Config
+        }>(await resolvePath(config || CONFIGURATION_FILE))
 
-          return undefined
-        })
+        if (!importedConfig || typeof importedConfig !== 'object') {
+          config ||= CONFIGURATION_FILE
+          throw new Error('Default export is not a valid configuration object.')
+        }
+
+        config = importedConfig
+      } catch (error) {
+        config && logger.error(`Could not load config from ${config}:`, error)
+
+        config = undefined
+      }
     }
 
     const cssOptions: CSSOptions = {
