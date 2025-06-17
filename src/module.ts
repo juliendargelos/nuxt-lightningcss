@@ -80,7 +80,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     const plugins = !globals?.length ? [] : [globalStylesheet({
-      paths: globals
+      paths: await Promise.all(globals.map(path => resolvePath(path)))
     })]
 
     const cssMinify = minify && !nuxt.options.dev ? 'lightningcss' : false
