@@ -1,9 +1,6 @@
-import type { TransformOptions, CustomAtRules } from 'lightningcss'
+import type { LightningCSSOptions } from 'vite'
 
-export type Config = Partial<Omit<TransformOptions<CustomAtRules>,
-  'filename' |
-  'code'
->>
+export type Config = LightningCSSOptions
 
 export function defineConfig(config: Config): Config {
   return config
