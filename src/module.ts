@@ -1,4 +1,10 @@
-import { defineNuxtModule, resolvePath, useLogger } from '@nuxt/kit'
+import {
+  defineNuxtModule,
+  resolvePath,
+  useLogger,
+  extendViteConfig
+} from '@nuxt/kit'
+
 import { type CSSOptions } from 'vite'
 import { createJiti } from 'jiti'
 import { browserslistToTargets } from 'lightningcss'
@@ -64,7 +70,6 @@ export default defineNuxtModule<ModuleOptions>({
         config = importedConfig
       } catch (error) {
         config && logger.error(`Could not load config from ${config}:`, error)
-
         config = undefined
       }
     }
@@ -85,7 +90,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     const cssMinify = minify && !nuxt.options.dev ? 'lightningcss' : false
 
-    nuxt.hook('vite:extend', ({ config }) => {
+    extendViteConfig((config) => {
       config.build!.cssMinify = cssMinify
       config.css = cssOptions
       config.plugins = [...plugins, ...config.plugins!]
