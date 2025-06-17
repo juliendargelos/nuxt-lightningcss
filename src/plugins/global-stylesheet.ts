@@ -1,4 +1,6 @@
 import { Plugin } from 'vite'
+import { parse } from '@vue/compiler-sfc'
+import MagicString from 'magic-string'
 
 export interface GlobalStylesheetParameters {
   paths: string[]
@@ -25,14 +27,24 @@ export default function globalStylesheet({
       const type = url.searchParams.get('type')
 
       if (extension === 'css' || (extension === 'vue' && type === 'style')) {
+        const s = new MagicString(code)
+        s.prepend(`${imports}\n`)
+
         return {
-          map: null,
-          code: `${imports}\n${code}`
+          map: s.generateMap({ hires: true }),
+          code: s.toString()
         }
       } else if (!type && extension === 'vue') {
+        const s = new MagicString(code)
+        const parsed = parse(code)
+
+        for (const style of parsed.descriptor.styles) {
+          s.appendLeft(style.loc.start.offset, `\n${imports}\n`)
+        }
+
         return {
-          map: null,
-          code: code.replace(/(<style(?:\s+[^>]+|\s*)>)/, `$1\n${imports}\n`)
+          map: s.generateMap({ hires: true }),
+          code: s.toString()
         }
       }
     }
