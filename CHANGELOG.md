@@ -1,6 +1,30 @@
 # Changelog
 
 
+## v2.3.0
+
+[compare changes](https://github.com/juliendargelos/nuxt-lightningcss/compare/v2.2.0...v2.3.0)
+
+### 🚀 Enhancements
+
+- Rely on vite exported lightningcss options ([4860aa8](https://github.com/juliendargelos/nuxt-lightningcss/commit/4860aa8))
+- More robust way of handling global stylesheet, add source maps support ([f0396d1](https://github.com/juliendargelos/nuxt-lightningcss/commit/f0396d1))
+- Resolve global stylesheets path from project root ([2fdda76](https://github.com/juliendargelos/nuxt-lightningcss/commit/2fdda76))
+- Use extendViteConfig helper instead of extend:vite hook ([6e0c71c](https://github.com/juliendargelos/nuxt-lightningcss/commit/6e0c71c))
+- Watch lightningcss config file ([9bf9018](https://github.com/juliendargelos/nuxt-lightningcss/commit/9bf9018))
+
+### 🩹 Fixes
+
+- Build issues ([a7d1983](https://github.com/juliendargelos/nuxt-lightningcss/commit/a7d1983))
+
+### 🏡 Chore
+
+- Restore playground lightningcss configuration ([43a0012](https://github.com/juliendargelos/nuxt-lightningcss/commit/43a0012))
+
+### ❤️ Contributors
+
+- Julien Dargelos <hello@julien.gl>
+
 ## v2.2.0
 
 [compare changes](https://github.com/juliendargelos/nuxt-lightningcss/compare/v2.1.0...v2.2.0)
