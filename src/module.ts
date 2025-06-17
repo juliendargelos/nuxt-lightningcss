@@ -54,6 +54,8 @@ export default defineNuxtModule<ModuleOptions>({
     const logger = useLogger(MODULE_NAME)
 
     if (!config || typeof config === 'string') {
+      nuxt.options.watch.push(await resolvePath(config || CONFIGURATION_FILE))
+
       try {
         const jiti = createJiti(import.meta.url)
         const {
