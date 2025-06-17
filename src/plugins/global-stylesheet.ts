@@ -1,4 +1,4 @@
-import { Plugin } from 'vite'
+import type { Plugin } from 'vite'
 import { parse } from '@vue/compiler-sfc'
 import MagicString from 'magic-string'
 
